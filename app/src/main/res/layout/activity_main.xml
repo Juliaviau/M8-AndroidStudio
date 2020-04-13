@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7ADD3BA"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#5647DB"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="AGENDA"
+            android:textAlignment="center"
+            android:textColor="#F7F7FF"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <CalendarView
+        android:id="@+id/calendari"
+        android:layout_width="321dp"
+        android:layout_height="333dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/estil_calendari"
+        android:focusedMonthDateColor="#00FFFFFF"
+        android:longClickable="false"
+        android:minDate="01/01/1950"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="148dp" />
+
+    <Button
+        android:id="@+id/button_afegirNota"
+        android:layout_width="160dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/estil_boto"
+        android:text="+ Afegir una nota"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/separacio1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DFD7D9"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/bt_nota"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#FFFFFF"
+                    android:text="Titol + hora "
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/bt_nota1"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#FFFFFF"
+                    android:text="Titol + hora "
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/bt_nota2"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#FFFFFF"
+                    android:text="Titol + hora "
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/bt_nota3"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#FFFFFF"
+                    android:text="Titol + hora "
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/bt_nota4"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#FFFFFF"
+                    android:text="Titol + hora "
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
