@@ -28,7 +28,7 @@ class CrearNota : AppCompatActivity() {
         val objIntent: Intent =intent
         data = objIntent.getStringExtra("data")
 
-        textView3.setText(data)
+        tv_Dia.setText(data)
 
         b_hora.setOnClickListener {
             val c = Calendar.getInstance()
@@ -44,27 +44,33 @@ class CrearNota : AppCompatActivity() {
             TimePickerDialog(this,tpd,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true).show()
         }
 
+
+        //Provant aqui
         iv_afegir.setOnClickListener{
             // Gets the data repository in write mode
 
-            val asa: String = tv_titol.text.toString()
+            val asa: String = et_TitolNota.text.toString()
 
             val db: SQLiteDatabase = helper.writableDatabase
 
             // Create a new map of values, where column names are the keys
-            //val values = ContentValues().apply {
-                //put(Estructura_BBDD.COL_ID, data+et_TitolNota.text.toString())
-               // put(Estructura_BBDD.COL_DIA, tv_dia.text.toString())
-               // put(Estructura_BBDD.COL_HORA, tv_hora.text.toString())
-             //   put(Estructura_BBDD.COL_TITOL, tv_titol.text.toString())
-               // put(Estructura_BBDD.COL_CONTINGUT, Eet_Contingut.text.toString())
-          //  }
+            val values = ContentValues().apply {
+                put(Estructura_BBDD.COL_ID,        data+asa)
+                put(Estructura_BBDD.COL_DIA,       data)
+                put(Estructura_BBDD.COL_HORA,      tv_hora.text.toString())
+
+                put(Estructura_BBDD.COL_TITOL,     asa)
+                put(Estructura_BBDD.COL_CONTINGUT, Eet_Contingut.text.toString())
+            }
 
             // Insert the new row, returning the primary key value of the new row
-           // val newRowId = db?.insert(Estructura_BBDD.TABLE_NAME, null, values)
+            val newRowId = db?.insert(Estructura_BBDD.TABLE_NAME, null, values)
 
-            val toast = Toast.makeText(applicationContext, asa, Toast.LENGTH_SHORT)
+            val toast = Toast.makeText(applicationContext, "Dades guardades", Toast.LENGTH_SHORT)
             toast.show()
+
+            val i =  Intent(this, MainActivity::class.java)
+            startActivity(i)
         }
 
         iv_eliminar.setOnClickListener{
