@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.sqliteprova.BBDD_Helper
 import com.example.sqliteprova.Estructura_BBDD
 import kotlinx.android.synthetic.main.activity_crear_nota.*
-import kotlinx.android.synthetic.main.activity_vista_notes.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,15 +44,12 @@ class CrearNota : AppCompatActivity() {
         }
 
 
-        //Provant aqui
         iv_afegir.setOnClickListener{
-            // Gets the data repository in write mode
 
             val asa: String = et_TitolNota.text.toString()
 
             val db: SQLiteDatabase = helper.writableDatabase
 
-            // Create a new map of values, where column names are the keys
             val values = ContentValues().apply {
                 put(Estructura_BBDD.COL_ID,        data+asa)
                 put(Estructura_BBDD.COL_DIA,       data)
@@ -63,7 +59,6 @@ class CrearNota : AppCompatActivity() {
                 put(Estructura_BBDD.COL_CONTINGUT, Eet_Contingut.text.toString())
             }
 
-            // Insert the new row, returning the primary key value of the new row
             val newRowId = db?.insert(Estructura_BBDD.TABLE_NAME, null, values)
 
             val toast = Toast.makeText(applicationContext, "Dades guardades", Toast.LENGTH_SHORT)

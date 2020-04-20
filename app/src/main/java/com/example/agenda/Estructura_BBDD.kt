@@ -11,11 +11,11 @@ object Estructura_BBDD {
 
     //}
     const val SQL_CREAR_TAULA = "CREATE TABLE " + TABLE_NAME + " (" +
-            COL_ID + " TEXT PRIMARY KEY," +
+            COL_ID        + " TEXT PRIMARY KEY," +
             COL_CONTINGUT + " TEXT," +
-            COL_TITOL + " TEXT," +
-            COL_DIA + " DATE," +
-            COL_HORA + " TIME)"
+            COL_TITOL     + " TEXT," +
+            COL_DIA       + " DATE," +
+            COL_HORA      + " TIME   )"
 
     const val SQL_ELIMINAR_TAULA = "DROP TABLE IF EXISTS $TABLE_NAME"
 }

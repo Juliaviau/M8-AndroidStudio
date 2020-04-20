@@ -1,13 +1,15 @@
 package com.example.agenda
 
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.CalendarView.OnDateChangeListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.sqliteprova.BBDD_Helper
+import com.example.sqliteprova.Estructura_BBDD
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -15,13 +17,17 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     var dia = ""
+    val helper = BBDD_Helper(this)
+    val notesXdia = null;
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         bt_nota1.setOnClickListener {
-            if (!dia.equals("")) {
+            if (!dia.equals("")) {//si ha seleccionat un dia
                 val i =  Intent(this, VistaNotes::class.java)
                 i.putExtra("data",dia)
                 startActivity(i)
@@ -32,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
         button_afegirNota.setOnClickListener {
 
-            //si ha seleccionat un dia, fa, sino mostra un toast dient que seleccioni dia
             if (!dia.equals("")) {
                 val i =  Intent(this, CrearNota::class.java)
                 i.putExtra("data",dia)
@@ -54,9 +59,34 @@ class MainActivity : AppCompatActivity() {
         val m = a.get(Calendar.MONTH)
         val d = a.get(Calendar.DAY_OF_WEEK)
 
+        val db: SQLiteDatabase = helper.readableDatabase
+
         calendari.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
             dia = dayOfMonth.toString()+"/"+(month+1).toString()+"/"+year.toString()
+
+
+            val projection = arrayOf(Estructura_BBDD.COL_TITOL, Estructura_BBDD.COL_HORA)
+
+            val selection = "${Estructura_BBDD.COL_DIA} = ?"
+            val selectionArgs = arrayOf(dia)
+
+            val cursor = db.query(
+                Estructura_BBDD.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+            )
+
+            bt_nota.setText(cursor.count.toString())
+
+            for (x in 0..cursor.count) {
+            }
+
         })
+
         /*button2.setOnClickListener {
             val da = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
