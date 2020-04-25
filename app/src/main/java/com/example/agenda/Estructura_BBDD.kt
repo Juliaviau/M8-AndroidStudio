@@ -1,7 +1,7 @@
 package com.example.sqliteprova
 
 object Estructura_BBDD {
-    /* Inner class that defines the table contents */ //public static class FeedEntry implements BaseColumns {
+
     const val TABLE_NAME = "GuardarLesNotes"
     const val COL_ID = "id"
     const val COL_DIA = "dia"

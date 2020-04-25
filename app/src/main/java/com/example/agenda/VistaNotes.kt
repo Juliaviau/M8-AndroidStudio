@@ -17,7 +17,6 @@ class VistaNotes : AppCompatActivity() {
     var idNota: String = ""
     val helper = BBDD_Helper(this)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -28,9 +27,7 @@ class VistaNotes : AppCompatActivity() {
         val objIntent: Intent=intent
         idNota = objIntent.getStringExtra("data")
 
-
         val db: SQLiteDatabase = helper.readableDatabase
-
 
         val projection = arrayOf(Estructura_BBDD.COL_TITOL, Estructura_BBDD.COL_DIA, Estructura_BBDD.COL_HORA,Estructura_BBDD.COL_CONTINGUT)
 
@@ -50,12 +47,10 @@ class VistaNotes : AppCompatActivity() {
 
         cursor.moveToFirst()
 
-
         tv_dia.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_DIA)))
         tv_titol.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_TITOL)))
         TV_hora.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_HORA)))
         tv_Contingut.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_CONTINGUT)))
-
 
         imageView.setOnClickListener{
             val i =  Intent(this, MainActivity::class.java)

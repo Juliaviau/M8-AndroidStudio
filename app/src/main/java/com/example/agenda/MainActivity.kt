@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class MainActivity : AppCompatActivity() {
 
     var dia = ""
@@ -37,19 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);        setContentView(R.layout.activity_crear_nota)
-
         setContentView(R.layout.activity_main)
-
-
-       /* bt_nota1.setOnClickListener {
-            if (!dia.equals("")) {//si ha seleccionat un dia
-                val i =  Intent(this, VistaNotes::class.java)
-                i.putExtra("data",dia)
-                startActivity(i)
-            } else {
-                var toast = Toast.makeText(this, "Selecciona un dia", Toast.LENGTH_SHORT).show()
-            }
-        }*/
 
         button_afegirNota.setOnClickListener {
 
@@ -63,13 +50,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        /*calendari.setOnDateChangeListener(CalendarView.OnDateChangeListener() {
-            overridefun onSelectedDayChange( calendarView: CalendarView, int i, int i1, int i2) {
-                val date = (i1+1)+"/"+i2+"/"+i
-                Log.d(Tag, "onSelectedDayChange: mm/dd/yyy:" + date)
-            }
-        })*/
-
         val a = Calendar.getInstance()
         val y = a.get(Calendar.YEAR)
         val m = a.get(Calendar.MONTH)
@@ -79,10 +59,8 @@ class MainActivity : AppCompatActivity() {
 
         calendari.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
 
-            //eliminar tots els botons que hi hagi
             if (scrollBotons.childCount > 0)
                 scrollBotons.removeAllViews();
-
 
             dia = dayOfMonth.toString()+"/"+(month+1).toString()+"/"+year.toString()
 
@@ -104,14 +82,12 @@ class MainActivity : AppCompatActivity() {
 
             cursor.moveToFirst()
             //val nameColumnIndex: Int = cursor.getColumnIndex(Estructura_BBDD.COL_DIA)
-           // bt_nota.setText(nameColumnIndex.toString())
-         //   val name: String = cursor.getString(nameColumnIndex)
-
+            // bt_nota.setText(nameColumnIndex.toString())
+            // val name: String = cursor.getString(nameColumnIndex)
 
            // bt_nota.setText(cursor.count.toString())
 
             if (cursor.count > 0) {
-
                 val titols = ArrayList<String>()
                     if (cursor.moveToFirst()) {
                         while (!cursor.isAfterLast) {
@@ -120,7 +96,6 @@ class MainActivity : AppCompatActivity() {
                             titols.add(name)
                             cursor.moveToNext()
                         }
-
                 }
 
                 val hores = ArrayList<String>()
@@ -145,13 +120,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     scrollBotons.addView(button)
                 }
+
             } else {
                 val nohiha =  TextView (this)
                 nohiha.layoutParams = lp
                 nohiha.setBackgroundColor(Color.GRAY)
                 nohiha.setPadding(0,308,0,308)
                 nohiha.setTextColor(Color.WHITE)
-
 
                 nohiha.setGravity(Gravity.CENTER or Gravity.BOTTOM)
                 nohiha.text = "No hi ha cap nota per aquest dia"
@@ -161,6 +136,105 @@ class MainActivity : AppCompatActivity() {
 
             }
         })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /*button2.setOnClickListener {
             val da = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -180,4 +254,30 @@ class MainActivity : AppCompatActivity() {
         textview_date!!.text = sdf.format(cal.getTime())
     }
     */
+    //....................
+    /*   val string_date = "12-December-2012"
+       val f = SimpleDateFormat("dd-MMM-yyyy")
+       val d: Date = f.parse(string_date)
+       val milliseconds = d.time
+       var toast = Toast.makeText(this, dia.toString(), Toast.LENGTH_SHORT).show()*/
+    // calendari.setDate(1587513600000)
+    //calendari.setDate(1586217600000)
+    /*   val calendar = Calendar.getInstance()
+       val dates: MutableList<Long> = ArrayList()
+
+       calendar[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+       dates.add(calendar.timeInMillis)
+
+       calendar[Calendar.DAY_OF_WEEK] = Calendar.WEDNESDAY
+       dates.add(calendar.timeInMillis)
+
+       calendar[Calendar.DAY_OF_WEEK] = Calendar.FRIDAY
+       dates.add(calendar.timeInMillis)
+
+       for (x in dates) {
+           calendari.setDate(dates)
+
+       }*/
+
+//.....................
 }

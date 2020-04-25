@@ -20,8 +20,6 @@ class BBDD_Helper(context: Context?) :
         oldVersion: Int,
         newVersion: Int
     ) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
         db.execSQL(Estructura_BBDD.SQL_ELIMINAR_TAULA)
         onCreate(db)
     }
