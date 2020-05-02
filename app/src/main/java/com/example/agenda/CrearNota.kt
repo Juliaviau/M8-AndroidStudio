@@ -24,6 +24,7 @@ class CrearNota : AppCompatActivity() {
     val helper = BBDD_Helper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);        setContentView(R.layout.activity_crear_nota)
@@ -32,11 +33,11 @@ class CrearNota : AppCompatActivity() {
         data = objIntent.getStringExtra("data")
         donve = objIntent.getStringExtra("donve")
 
-        tv_Dia.setText(data)
+        tv_MostraDia.setText(data)
 
         if (donve.equals("crear")) {
 
-            b_hora.setOnClickListener {
+            btn_EscollirHora.setOnClickListener {
                 val c = Calendar.getInstance()
                 var hora = c.get(Calendar.HOUR_OF_DAY)
                 var minuts = c.get(Calendar.MINUTE)
@@ -44,56 +45,78 @@ class CrearNota : AppCompatActivity() {
                 val tpd = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                     c.set(Calendar.HOUR_OF_DAY,hourOfDay)
                     c.set(Calendar.MINUTE,minute)
-                    tv_hora.setText(SimpleDateFormat("HH:mm").format(c.time))
+                    tv_MostraHora.setText(SimpleDateFormat("HH:mm").format(c.time))
                 }
 
                 TimePickerDialog(this,tpd,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true).show()
             }
 
-            iv_afegir.setOnClickListener{
+            ivBtn_AfegirNota.setOnClickListener{
 
                 val asa: String = et_TitolNota.text.toString()
 
-                val db: SQLiteDatabase = helper.writableDatabase
+                if (!et_TitolNota.text.isEmpty() && tv_MostraHora.text != "hh:mm" && !Eet_ContingutNota.text.isEmpty()) {
 
-                val values = ContentValues().apply {
-                    put(Estructura_BBDD.COL_ID,        data+asa)
-                    put(Estructura_BBDD.COL_DIA,       data)
-                    put(Estructura_BBDD.COL_HORA,      tv_hora.text.toString())
+                    val db: SQLiteDatabase = helper.readableDatabase
+                    val projection = arrayOf(Estructura_BBDD.COL_ID)
+                    val selection = "${Estructura_BBDD.COL_ID} = ?"
+                    val selectionArgs = arrayOf(data+asa)
 
-                    put(Estructura_BBDD.COL_TITOL,     asa)
-                    put(Estructura_BBDD.COL_CONTINGUT, Eet_Contingut.text.toString())
+                    val cursor = db.query(
+                        Estructura_BBDD.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        null
+                    )
+
+                    cursor.moveToFirst()
+                    val count = cursor.count
+
+                    if (count == 0) {
+
+                        val db: SQLiteDatabase = helper.writableDatabase
+                        val values = ContentValues().apply {
+                            put(Estructura_BBDD.COL_ID,        data+asa)
+                            put(Estructura_BBDD.COL_DIA,       data)
+                            put(Estructura_BBDD.COL_HORA,      tv_MostraHora.text.toString())
+                            put(Estructura_BBDD.COL_TITOL,     asa)
+                            put(Estructura_BBDD.COL_CONTINGUT, Eet_ContingutNota.text.toString())
+                        }
+
+                        val nova = db?.insert(Estructura_BBDD.TABLE_NAME, null, values)
+                        val toast = Toast.makeText(applicationContext, "Dades guardades", Toast.LENGTH_SHORT)
+                        toast.show()
+                        val i =  Intent(this, MainActivity::class.java)
+                        startActivity(i)
+                    } else {
+                        val toast = Toast.makeText(applicationContext, "Titol duplicat", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    val toast = Toast.makeText(applicationContext, "Camps buits", Toast.LENGTH_SHORT).show()
                 }
-
-                val nova = db?.insert(Estructura_BBDD.TABLE_NAME, null, values)
-
-                val toast = Toast.makeText(applicationContext, "Dades guardades", Toast.LENGTH_SHORT)
-                toast.show()
-
+            }
+            ivBtn_EliminarNota.setOnClickListener{
                 val i =  Intent(this, MainActivity::class.java)
                 startActivity(i)
             }
 
-            iv_eliminar.setOnClickListener{
-                val i =  Intent(this, MainActivity::class.java)
-                startActivity(i)
-            }
         } else {
             idNota = objIntent.getStringExtra("idNota")
 
             val db: SQLiteDatabase = helper.readableDatabase
-
             val projection = arrayOf(Estructura_BBDD.COL_TITOL, Estructura_BBDD.COL_DIA, Estructura_BBDD.COL_HORA,Estructura_BBDD.COL_CONTINGUT)
 
-            //Selecciona totes les entrades on el dia sigui igual al seleccionat
             val selection = "${Estructura_BBDD.COL_ID} = ?"
             val selectionArgs = arrayOf(idNota)
 
             val cursor = db.query(
-                Estructura_BBDD.TABLE_NAME, //De la base de dades
-                projection,                 //Agafa el titol i l'hora
-                selection,                  //On el dia sigui igual
-                selectionArgs,              //Al dia seleccionat
+                Estructura_BBDD.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 null
@@ -101,12 +124,14 @@ class CrearNota : AppCompatActivity() {
 
             cursor.moveToFirst()
 
-            tv_Dia.setText(        cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_DIA)))
+            tv_MostraDia.setText(        cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_DIA)))
             et_TitolNota.setText(  cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_TITOL)))
-            tv_hora.setText(       cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_HORA)))
-            Eet_Contingut.setText( cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_CONTINGUT)))
+            tv_MostraHora.setText(       cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_HORA)))
+            Eet_ContingutNota.setText( cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_CONTINGUT)))
 
-            b_hora.setOnClickListener {
+
+            btn_EscollirHora.setOnClickListener {
+
                 val c = Calendar.getInstance()
                 var hora = c.get(Calendar.HOUR_OF_DAY)
                 var minuts = c.get(Calendar.MINUTE)
@@ -114,21 +139,19 @@ class CrearNota : AppCompatActivity() {
                 val tpd = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                     c.set(Calendar.HOUR_OF_DAY,hourOfDay)
                     c.set(Calendar.MINUTE,minute)
-                    tv_hora.setText(SimpleDateFormat("HH:mm").format(c.time))
+                    tv_MostraHora.setText(SimpleDateFormat("HH:mm").format(c.time))
                 }
                 TimePickerDialog(this,tpd,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true).show()
             }
 
-            iv_afegir.setOnClickListener{
+            ivBtn_AfegirNota.setOnClickListener{
 
                 val db: SQLiteDatabase = helper.writableDatabase
-
                 val titol : String = et_TitolNota.text.toString()
-
                 val values = ContentValues().apply {
                     put(Estructura_BBDD.COL_TITOL, titol)
-                    put(Estructura_BBDD.COL_HORA, tv_hora.text.toString())
-                    put(Estructura_BBDD.COL_CONTINGUT, Eet_Contingut.text.toString())
+                    put(Estructura_BBDD.COL_HORA, tv_MostraHora.text.toString())
+                    put(Estructura_BBDD.COL_CONTINGUT, Eet_ContingutNota.text.toString())
                 }
 
                 val count = db.update(
@@ -137,23 +160,15 @@ class CrearNota : AppCompatActivity() {
                     selection,
                     selectionArgs)
 
-             //   val asa: String = et_TitolNota.text.toString()
-               /* val values = ContentValues().apply {
-                    put(Estructura_BBDD.COL_ID,        idNota)
-                    put(Estructura_BBDD.COL_HORA,      tv_hora.text.toString())
-                    put(Estructura_BBDD.COL_TITOL,     asa)
-                    put(Estructura_BBDD.COL_CONTINGUT, Eet_Contingut.text.toString())
-                }
-                val newRowId = db?.insert(Estructura_BBDD.TABLE_NAME, null, values)*/
-
-                val toast = Toast.makeText(applicationContext, "Dades guardades", Toast.LENGTH_SHORT)
+                val toast = Toast.makeText(applicationContext, "Dades actualitzades", Toast.LENGTH_SHORT)
                 toast.show()
 
-                val i =  Intent(this, MainActivity::class.java)
+                //finish()
+                val i =  Intent(this, VistaNotes::class.java)
                 startActivity(i)
             }
 
-            iv_eliminar.setOnClickListener{
+            ivBtn_EliminarNota.setOnClickListener{
                 val i =  Intent(this, MainActivity::class.java)
                 startActivity(i)
             }

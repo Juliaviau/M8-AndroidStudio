@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
     var dia = ""
     val helper = BBDD_Helper(this)
     val notesXdia = null;
+    val llsep = LinearLayout.LayoutParams (
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+    )
+
     val lp = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -38,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);        setContentView(R.layout.activity_crear_nota)
         setContentView(R.layout.activity_main)
 
-        button_afegirNota.setOnClickListener {
+        btn_AfegirNota.setOnClickListener {
 
             if (!dia.equals("")) {
                 val i =  Intent(this, CrearNota::class.java)
@@ -57,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         val db: SQLiteDatabase = helper.readableDatabase
 
-        calendari.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
+        Calendari.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
 
             if (scrollBotons.childCount > 0)
                 scrollBotons.removeAllViews();
@@ -81,11 +86,11 @@ class MainActivity : AppCompatActivity() {
             )
 
             cursor.moveToFirst()
+
             //val nameColumnIndex: Int = cursor.getColumnIndex(Estructura_BBDD.COL_DIA)
             // bt_nota.setText(nameColumnIndex.toString())
             // val name: String = cursor.getString(nameColumnIndex)
-
-           // bt_nota.setText(cursor.count.toString())
+            // bt_nota.setText(cursor.count.toString())
 
             if (cursor.count > 0) {
                 val titols = ArrayList<String>()
@@ -109,9 +114,14 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 for (x in 0..hores.size-1) {
+
+                    val sepa = LinearLayout(this)
+                    sepa.layoutParams = llsep
+                    sepa.setBackgroundColor(Color.BLACK)
+
                     val button = Button(this)
                     button.layoutParams = lp
-                    button.setBackgroundColor(Color.WHITE)
+                    button.setBackgroundColor(Color.parseColor("#c4eada"))
                     button.text = titols.get(x) + "   |   " + hores.get(x)
                     button.setOnClickListener{
                         val i =  Intent(this, VistaNotes::class.java)
@@ -119,21 +129,21 @@ class MainActivity : AppCompatActivity() {
                         startActivity(i)
                     }
                     scrollBotons.addView(button)
+                    scrollBotons.addView(sepa)
                 }
 
             } else {
+
                 val nohiha =  TextView (this)
                 nohiha.layoutParams = lp
                 nohiha.setBackgroundColor(Color.GRAY)
                 nohiha.setPadding(0,308,0,308)
                 nohiha.setTextColor(Color.WHITE)
-
                 nohiha.setGravity(Gravity.CENTER or Gravity.BOTTOM)
                 nohiha.text = "No hi ha cap nota per aquest dia"
                 nohiha.textSize = 23f
 
                 scrollBotons.addView(nohiha)
-
             }
         })
 

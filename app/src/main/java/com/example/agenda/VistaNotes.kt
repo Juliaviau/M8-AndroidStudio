@@ -9,7 +9,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.example.sqliteprova.BBDD_Helper
 import com.example.sqliteprova.Estructura_BBDD
-import kotlinx.android.synthetic.main.activity_crear_nota.*
 import kotlinx.android.synthetic.main.activity_vista_notes.*
 
 class VistaNotes : AppCompatActivity() {
@@ -18,6 +17,7 @@ class VistaNotes : AppCompatActivity() {
     val helper = BBDD_Helper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);        setContentView(R.layout.activity_crear_nota)
@@ -31,15 +31,14 @@ class VistaNotes : AppCompatActivity() {
 
         val projection = arrayOf(Estructura_BBDD.COL_TITOL, Estructura_BBDD.COL_DIA, Estructura_BBDD.COL_HORA,Estructura_BBDD.COL_CONTINGUT)
 
-        //Selecciona totes les entrades on el dia sigui igual al seleccionat
         val selection = "${Estructura_BBDD.COL_ID} = ?"
         val selectionArgs = arrayOf(idNota)
 
         val cursor = db.query(
-            Estructura_BBDD.TABLE_NAME, //De la base de dades
-            projection,                 //Agafa el titol i l'hora
-            selection,                  //On el dia sigui igual
-            selectionArgs,              //Al dia seleccionat
+            Estructura_BBDD.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
             null,
             null,
             null
@@ -47,16 +46,17 @@ class VistaNotes : AppCompatActivity() {
 
         cursor.moveToFirst()
 
-        tv_dia.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_DIA)))
-        tv_titol.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_TITOL)))
-        TV_hora.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_HORA)))
-        tv_Contingut.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_CONTINGUT)))
+        tv_MostrarDia.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_DIA)))
+        tv_TitolNota.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_TITOL)))
+        tv_MostrarHora.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_HORA)))
+        tv_MostrarContingutNota.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_CONTINGUT)))
 
-        imageView.setOnClickListener{
-            val i =  Intent(this, MainActivity::class.java)
-            startActivity(i)
+        ivBtn_TornarEnrere.setOnClickListener{
+            finish()
+            /*val i =  Intent(this, MainActivity::class.java)
+            startActivity(i)*/
         }
-        eliminarNota.setOnClickListener{
+        btn_EliminarNota.setOnClickListener{
 
             val selection = "${Estructura_BBDD.COL_ID} LIKE ?"
             val selectionArgs = arrayOf(idNota)
@@ -67,7 +67,7 @@ class VistaNotes : AppCompatActivity() {
             val i =  Intent(this, MainActivity::class.java)
             startActivity(i)
         }
-        editarNota.setOnClickListener {
+        btn_EditarNota.setOnClickListener {
             val i =  Intent(this, CrearNota::class.java)
             i.putExtra("donve", "editar")
             i.putExtra("idNota", idNota)

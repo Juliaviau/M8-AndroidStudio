@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7ADD3BA"
+    android:background="#fcf3ca"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#5647DB"
-        android:orientation="horizontal">
+        android:background="#ef7b7b">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_TitolApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -27,21 +26,23 @@
     </LinearLayout>
 
     <CalendarView
-        android:id="@+id/calendari"
+        android:id="@+id/Calendari"
         android:layout_width="321dp"
         android:layout_height="333dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/estil_calendari"
-        android:focusedMonthDateColor="#00FFFFFF"
+        android:focusedMonthDateColor="#FFFFFF"
         android:longClickable="false"
         android:minDate="01/01/1950"
+        android:saveEnabled="false"
+        android:selectedWeekBackgroundColor="#328F66"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="148dp" />
 
     <Button
-        android:id="@+id/button_afegirNota"
+        android:id="@+id/btn_AfegirNota"
         android:layout_width="160dp"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
@@ -52,7 +53,7 @@
         android:textSize="15sp" />
 
     <LinearLayout
-        android:id="@+id/separacio1"
+        android:id="@+id/barraSeparadora"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#000000"
@@ -69,7 +70,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/tertiary_text_dark">
+            android:background="#919190">
 
             <LinearLayout
                 android:id="@+id/scrollBotons"
@@ -77,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:background="#000000"
                 android:orientation="vertical" />
+
+
         </ScrollView>
 
     </LinearLayout>
