@@ -69,9 +69,9 @@ class VistaNotes : AppCompatActivity() {
         }
         btn_EditarNota.setOnClickListener {
             val i =  Intent(this, CrearNota::class.java)
-            i.putExtra("donve", "editar")
+            i.putExtra("donve" , "editar")
             i.putExtra("idNota", idNota)
-            i.putExtra("data",idNota)
+            i.putExtra("data"  , idNota)
             startActivity(i)
         }
     }

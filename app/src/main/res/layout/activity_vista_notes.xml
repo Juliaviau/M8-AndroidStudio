@@ -26,20 +26,21 @@
 
         <ImageView
             android:id="@+id/btn_EliminarNota"
-            android:layout_width="97dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="end"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight=".2"
-            android:scaleType="fitEnd"
+            android:layout_marginLeft="283dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:scaleType="centerInside"
             app:srcCompat="@android:drawable/ic_menu_delete" />
 
         <ImageView
             android:id="@+id/btn_EditarNota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:layout_marginRight="10dp"
             android:scaleType="centerInside"
             app:srcCompat="@android:drawable/ic_menu_edit" />
