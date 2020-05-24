@@ -20,53 +20,69 @@ class VistaNotes : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);        setContentView(R.layout.activity_crear_nota)
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_crear_nota)
 
         setContentView(R.layout.activity_vista_notes)
 
+        //Rep l'id de la nota a veure i el guarda a idNota
         val objIntent: Intent=intent
         idNota = objIntent.getStringExtra("data")
 
-        val db: SQLiteDatabase = helper.readableDatabase
+        val baseDeDades: SQLiteDatabase = helper.readableDatabase
 
-        val projection = arrayOf(Estructura_BBDD.COL_TITOL, Estructura_BBDD.COL_DIA, Estructura_BBDD.COL_HORA,Estructura_BBDD.COL_CONTINGUT)
+        //Es guarda el que es vol que surti de la base de dades
+        val resultats = arrayOf(Estructura_BBDD.COL_TITOL, Estructura_BBDD.COL_DIA, Estructura_BBDD.COL_HORA,Estructura_BBDD.COL_CONTINGUT)
 
-        val selection = "${Estructura_BBDD.COL_ID} = ?"
-        val selectionArgs = arrayOf(idNota)
+        //Selecciona totes les entrades on l'id sigui igual al seleccionat
+        val seleccio = "${Estructura_BBDD.COL_ID} = ?"
+        val argumentsSeleccio = arrayOf(idNota)
 
-        val cursor = db.query(
+        //Es fa la consulta a la base de dades
+        val cursor = baseDeDades.query(
             Estructura_BBDD.TABLE_NAME,
-            projection,
-            selection,
-            selectionArgs,
+            resultats,
+            seleccio,
+            argumentsSeleccio,
             null,
             null,
             null
         )
 
+        //Selecciona la primera posicio
         cursor.moveToFirst()
 
+        //Escriu dins de cada apartat de text el contingut corresponent
         tv_MostrarDia.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_DIA)))
         tv_TitolNota.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_TITOL)))
         tv_MostrarHora.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_HORA)))
         tv_MostrarContingutNota.setText(cursor.getString(cursor.getColumnIndex(Estructura_BBDD.COL_CONTINGUT)))
 
+        //Al clicar el boto per anar enrere, torna a la pantalla que estava abans
         ivBtn_TornarEnrere.setOnClickListener{
             finish()
-            /*val i =  Intent(this, MainActivity::class.java)
-            startActivity(i)*/
         }
+
+        //Al clicar el boto d'eliminar la nota
         btn_EliminarNota.setOnClickListener{
 
-            val selection = "${Estructura_BBDD.COL_ID} LIKE ?"
-            val selectionArgs = arrayOf(idNota)
+            //Selecciona totes les entrades on l'id sigui igual al seleccionat
+            val seleccio = "${Estructura_BBDD.COL_ID} LIKE ?"
+            val argumentsSeleccio = arrayOf(idNota)
 
-            val deletedRows = db.delete(Estructura_BBDD.TABLE_NAME, selection, selectionArgs)
+            //Elimina la nota de la base de dades
+            val filesEliminades = baseDeDades.delete(Estructura_BBDD.TABLE_NAME, seleccio, argumentsSeleccio)
+
+            //Notifica que s'ha eliminat la nota
             var toast = Toast.makeText(this, "Nota eliminada correctament", Toast.LENGTH_SHORT).show()
 
+            //Es torna a l'inici
             val i =  Intent(this, MainActivity::class.java)
             startActivity(i)
         }
+
+        //Al clicar el boto del llapis, es va a la pantalla de crear nota. Dient-li que vol editar. I passant-li l'id de la nota
         btn_EditarNota.setOnClickListener {
             val i =  Intent(this, CrearNota::class.java)
             i.putExtra("donve" , "editar")
