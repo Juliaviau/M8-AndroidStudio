@@ -88,8 +88,6 @@
                 android:layout_height="wrap_content"
                 android:background="#000000"
                 android:orientation="vertical" />
-
-
         </ScrollView>
 
     </LinearLayout>

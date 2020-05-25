@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class MainActivity : AppCompatActivity() {
 
     var diaSeleccionat = ""
@@ -83,6 +82,13 @@ class MainActivity : AppCompatActivity() {
             //Al clicar el menu popup
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
+
+                    R.id.menuDades -> {
+                        //Vista de totes les notes
+                        val i =  Intent(this, TotesNotes::class.java)
+                        startActivity(i)
+                        true
+                    }
 
                     //Al clicar l'opció "menuBorrar"
                     R.id.menuBorrar -> {

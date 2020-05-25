@@ -1,5 +1,6 @@
 package com.example.agenda
 
+import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.ContentValues
 import android.content.Intent
@@ -14,7 +15,6 @@ import com.example.sqliteprova.Estructura_BBDD
 import kotlinx.android.synthetic.main.activity_crear_nota.*
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class CrearNota : AppCompatActivity() {
 
@@ -128,9 +128,25 @@ class CrearNota : AppCompatActivity() {
             //Al clicar el boto deliminar
             ivBtn_EliminarNota.setOnClickListener{
 
-                //Torna al menu principal
-                val i =  Intent(this, MainActivity::class.java)
-                startActivity(i)
+                //Es mostra un quadre de text preguntant si vol eliminar totes les dades
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Estas segur que vols sortir?")
+                builder.setMessage("No es guardarà la nota")
+
+                //Hi ha l'opcio daceptar, que al clicarla s'eliminen totes les dades
+                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                    //Torna al menu principal
+                    val i =  Intent(this, MainActivity::class.java)
+                    startActivity(i)
+                  //  Toast.makeText(applicationContext, android.R.string.yes, Toast.LENGTH_SHORT).show()
+                }
+
+                //Hi ha l'opcio de cancelar, que no fa res
+                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                    Toast.makeText(applicationContext, android.R.string.no, Toast.LENGTH_SHORT).show()
+                }
+
+                builder.show()
             }
 
         } else { //Si vol editar

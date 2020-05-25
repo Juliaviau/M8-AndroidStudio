@@ -1,5 +1,6 @@
 package com.example.agenda
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
@@ -67,19 +68,34 @@ class VistaNotes : AppCompatActivity() {
         //Al clicar el boto d'eliminar la nota
         btn_EliminarNota.setOnClickListener{
 
-            //Selecciona totes les entrades on l'id sigui igual al seleccionat
-            val seleccio = "${Estructura_BBDD.COL_ID} LIKE ?"
-            val argumentsSeleccio = arrayOf(idNota)
+            //Es mostra un quadre de text preguntant si vol eliminar totes les dades
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Eliminar la nota")
+            builder.setMessage("Estas segur que vols eliminar la nota?")
 
-            //Elimina la nota de la base de dades
-            val filesEliminades = baseDeDades.delete(Estructura_BBDD.TABLE_NAME, seleccio, argumentsSeleccio)
+            //Hi ha l'opcio daceptar, que al clicarla s'eliminen totes les dades
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                //Selecciona totes les entrades on l'id sigui igual al seleccionat
+                val seleccio = "${Estructura_BBDD.COL_ID} LIKE ?"
+                val argumentsSeleccio = arrayOf(idNota)
 
-            //Notifica que s'ha eliminat la nota
-            var toast = Toast.makeText(this, "Nota eliminada correctament", Toast.LENGTH_SHORT).show()
+                //Elimina la nota de la base de dades
+                val filesEliminades = baseDeDades.delete(Estructura_BBDD.TABLE_NAME, seleccio, argumentsSeleccio)
 
-            //Es torna a l'inici
-            val i =  Intent(this, MainActivity::class.java)
-            startActivity(i)
+                //Notifica que s'ha eliminat la nota
+                var toast = Toast.makeText(this, "Nota eliminada correctament", Toast.LENGTH_SHORT).show()
+
+                //Es torna a l'inici
+                val i =  Intent(this, MainActivity::class.java)
+                startActivity(i)
+            }
+
+            //Hi ha l'opcio de cancelar, que no fa res
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                Toast.makeText(applicationContext, android.R.string.no, Toast.LENGTH_SHORT).show()
+            }
+
+            builder.show()
         }
 
         //Al clicar el boto del llapis, es va a la pantalla de crear nota. Dient-li que vol editar. I passant-li l'id de la nota
